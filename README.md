@@ -1,3 +1,60 @@
+# Caffe_train
+
+Our modified caffe for training multi-person pose estimator. The original caffe version is in July 2016. This repository at least runs on Ubuntu 14.04, OpenCV 2.4.10, CUDA 7.5/8.0, and CUDNN 5. 
+
+The [full project repo](https://github.com/ZheC/Realtime_Multi-Person_Pose_Estimation) includes detailed training process and the testing code in matlab, C++ and python.
+
+We add customized caffe layer for data augmentation: [cpm_data_transformer.cpp](https://github.com/CMU-Perceptual-Computing-Lab/caffe_train/blob/master/src/caffe/cpm_data_transformer.cpp), including scale augmentation e.g., in the range of $0.7$ to $1.3$, rotation augmentation, e.g., in the range of $-40$ to $40$ degrees, flip augmentation and image cropping. This augmentation makes the method capable of dealing with a large range of scales and orientations. You can set the augmentation parameters in [setLayers.py](https://github.com/ZheC/Realtime_Multi-Person_Pose_Estimation/blob/master/training/setLayers.py). Example data augmentation parameters in the [training prototxt](https://github.com/ZheC/Realtime_Multi-Person_Pose_Estimation/blob/master/training/example_proto/pose_train_test.prototxt) is:
+
+```
+layer {
+  name: "data"
+  type: "CPMData"
+  top: "data"
+  top: "label"
+  data_param {
+    source: "/home/zhecao/COCO_kpt/lmdb_trainVal"
+    batch_size: 10
+    backend: LMDB
+  }
+  cpm_transform_param {
+    stride: 8
+    max_rotate_degree: 40
+    visualize: false
+    crop_size_x: 368
+    crop_size_y: 368
+    scale_prob: 1
+    scale_min: 0.5
+    scale_max: 1.1
+    target_dist: 0.6
+    center_perterb_max: 40
+    do_clahe: false
+    num_parts: 56
+    np_in_lmdb: 17
+  }
+}
+```
+This project is licensed under the terms of the GPL v3 license [![License](https://img.shields.io/aur/license/yaourt.svg)](LICENSE). We will merge it with the caffe testing version (https://github.com/CMU-Perceptual-Computing-Lab/caffe_rtpose) later.
+
+## Citation
+Please cite the paper in your publications if it helps your research:
+
+
+
+    @article{cao2016realtime,
+	  title={Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields},
+	  author={Zhe Cao and Tomas Simon and Shih-En Wei and Yaser Sheikh},
+	  journal={arXiv preprint arXiv:1611.08050},
+	  year={2016}
+	  }
+
+    @inproceedings{wei2016cpm,
+      author = {Shih-En Wei and Varun Ramakrishna and Takeo Kanade and Yaser Sheikh},
+      booktitle = {CVPR},
+      title = {Convolutional pose machines},
+      year = {2016}
+      }
+
 # Caffe
 
 [![Build Status](https://travis-ci.org/BVLC/caffe.svg?branch=master)](https://travis-ci.org/BVLC/caffe)
