@@ -2,7 +2,7 @@
 # Contributions simplifying and improving our build system are welcome!
 
 # cuDNN acceleration switch (uncomment to build with cuDNN).
-# USE_CUDNN := 1
+USE_CUDNN := 1
 
 # CPU-only switch (uncomment to build without GPU support).
 # CPU_ONLY := 1
@@ -25,7 +25,7 @@
 # CUSTOM_CXX := g++
 
 # CUDA directory contains bin/ and lib/ directories that we need.
-CUDA_DIR := /usr/local/cuda
+CUDA_DIR := /usr/local/cuda-7.5
 # On Ubuntu 14.04, if cuda tools are installed via
 # "sudo apt-get install nvidia-cuda-toolkit" then use this instead:
 # CUDA_DIR := /usr
@@ -56,7 +56,7 @@ BLAS := atlas
 
 # This is required only if you will compile the matlab interface.
 # MATLAB directory should contain the mex binary in /bin.
-# MATLAB_DIR := /usr/local
+MATLAB_DIR := /usr/local/MATLAB/R2015a
 # MATLAB_DIR := /Applications/MATLAB_R2012b.app
 
 # NOTE: this is required only if you will compile the python interface.
@@ -69,11 +69,6 @@ PYTHON_INCLUDE := /usr/include/python2.7 \
 # PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
 		# $(ANACONDA_HOME)/include/python2.7 \
 		# $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \
-
-# Uncomment to use Python 3 (default is Python 2)
-# PYTHON_LIBRARIES := boost_python3 python3.5m
-# PYTHON_INCLUDE := /usr/include/python3.5m \
-#                 /usr/lib/python3.5/dist-packages/numpy/core/include
 
 # We need to be able to find libpythonX.X.so or .dylib.
 PYTHON_LIB := /usr/lib
@@ -98,7 +93,6 @@ LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib
 # (Usually not necessary -- OpenCV libraries are normally installed in one of the above $LIBRARY_DIRS.)
 # USE_PKG_CONFIG := 1
 
-# N.B. both build and distribute dirs are cleared on `make clean`
 BUILD_DIR := build
 DISTRIBUTE_DIR := distribute
 
@@ -106,7 +100,7 @@ DISTRIBUTE_DIR := distribute
 # DEBUG := 1
 
 # The ID of the GPU that 'make runtest' will use to run unit tests.
-TEST_GPUID := 0
+TEST_GPUID := 1
 
 # enable pretty build (comment to see full commands)
 Q ?= @
