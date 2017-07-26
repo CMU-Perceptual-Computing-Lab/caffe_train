@@ -63,10 +63,10 @@ void CPMDataLayer<Dtype>::DataLayerSetUp(const vector<Blob<Dtype>*>& bottom,
       this->layer_param_.cpm_transform_param().crop_size_y();
     const int width = this->phase_ != TRAIN ? datum.width() :
       this->layer_param_.cpm_transform_param().crop_size_x();
-    LOG(INFO) << "PREFETCH_COUNT is " << this->PREFETCH_COUNT;
+    LOG(INFO) << "PREFETCH_COUNT is " << this->prefetch_.size();
     top[0]->Reshape(batch_size, datum.channels(), height, width);
-    for (int i = 0; i < this->PREFETCH_COUNT; ++i) {
-      this->prefetch_[i].data_.Reshape(batch_size, datum.channels(), height, width);
+    for (int i = 0; i < this->prefetch_.size(); ++i) {
+      this->prefetch_[i]->data_.Reshape(batch_size, datum.channels(), height, width);
     }
     //this->transformed_data_.Reshape(1, 4, height, width);
     this->transformed_data_.Reshape(1, datum.channels(), height, width);
@@ -85,8 +85,8 @@ void CPMDataLayer<Dtype>::DataLayerSetUp(const vector<Blob<Dtype>*>& bottom,
 
     int num_parts = this->layer_param_.cpm_transform_param().num_parts();
     top[1]->Reshape(batch_size, 2*(num_parts+1), height/stride, width/stride);
-    for (int i = 0; i < this->PREFETCH_COUNT; ++i) {
-      this->prefetch_[i].label_.Reshape(batch_size, 2*(num_parts+1), height/stride, width/stride);
+    for (int i = 0; i < this->prefetch_.size(); ++i) {
+      this->prefetch_[i]->label_.Reshape(batch_size, 2*(num_parts+1), height/stride, width/stride);
     }
     this->transformed_label_.Reshape(1, 2*(num_parts+1), height/stride, width/stride);
   }
