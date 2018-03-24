@@ -1082,8 +1082,8 @@ void CPMDataTransformer<Dtype>::putVecPeaks(Dtype* entryX, Dtype* entryY, Mat& c
 template<typename Dtype>
 void CPMDataTransformer<Dtype>::putVecMaps(Dtype* entryX, Dtype* entryY, Mat& count, Point2f centerA, Point2f centerB, int stride, int grid_x, int grid_y, float sigma, int thre){
   //int thre = 4;
-  centerB = centerB*0.125;
-  centerA = centerA*0.125;
+  centerB = centerB / stride;
+  centerA = centerA / stride;
   Point2f bc = centerB - centerA;
   int min_x = std::max( int(round(std::min(centerA.x, centerB.x)-thre)), 0);
   int max_x = std::min( int(round(std::max(centerA.x, centerB.x)+thre)), grid_x);
